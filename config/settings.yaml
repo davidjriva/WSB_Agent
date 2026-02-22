@@ -1,0 +1,80 @@
+# WSB Agent Configuration
+# All thresholds and parameters are configurable here
+
+reddit:
+  subreddit: wallstreetbets
+  # Number of posts to fetch per category (hot, new)
+  batch_size: 25
+  # Only consider posts from the last N hours
+  lookback_hours: 24
+  # Fetch comments for top N posts by engagement
+  top_posts_for_comments: 10
+  # Max comments to fetch per post
+  max_comments_per_post: 50
+
+market:
+  # Provider: "yfinance" (more options in future)
+  provider: yfinance
+  # Cache market data for N minutes (avoid redundant API calls)
+  cache_ttl_minutes: 30
+  # Historical data period for feature calculation
+  history_period: 1mo
+  # Data interval
+  history_interval: 1d
+
+features:
+  ticker_extraction:
+    # Minimum confidence score to accept a ticker mention (0.0 - 1.0)
+    min_confidence: 0.3
+    # Words that are valid tickers but commonly used as non-ticker words
+    blacklist:
+      - DD    # Due Diligence
+      - YOLO  # You Only Live Once
+      - ALL   # common word
+      - IT    # common word
+      - A     # common word
+      - GO    # common word
+      - FOR   # common word
+      - CEO   # title
+      - IPO   # event type
+      - ATH   # All Time High (slang)
+      - OTM   # Out of The Money (options term)
+      - ITM   # In The Money (options term)
+      - FD    # WSB slang
+      - ER    # Earnings Report
+      - PM    # Pre-Market / common word
+      - AI    # commonly used generically
+      - EV    # Electric Vehicle (generic)
+      - PE    # Price/Earnings (metric)
+      - IV    # Implied Volatility
+
+  sentiment:
+    # Method: "vader" (more options in future: "llm")
+    method: vader
+
+  attention:
+    # Time window in hours for velocity calculations
+    window_hours: 6
+
+signal_engine:
+  weights:
+    sentiment: 0.35
+    velocity: 0.30
+    volume: 0.20
+    momentum: 0.15
+  thresholds:
+    buy: 0.6
+    sell: -0.4
+  # Ignore tickers with fewer than N mentions
+  min_mentions: 3
+  # Ignore tickers with confidence below this
+  min_confidence: 0.3
+
+storage:
+  # SQLite database path (relative to project root)
+  database_path: data/wsb_agent.db
+
+logging:
+  level: INFO
+  # Format: "text" or "json"
+  format: text
