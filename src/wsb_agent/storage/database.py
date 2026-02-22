@@ -401,6 +401,39 @@ class Database:
                 logger.error(f"Error parsing signal row: {e}")
         return signals
 
+    def get_ticker_signals(self, ticker: str, limit: int = 50) -> list[Signal]:
+        """Fetch historical signals for a specific ticker.
+
+        Args:
+            ticker: The stock ticker to filter by.
+            limit: Max number of signals to return.
+
+        Returns:
+            List of Signal objects.
+        """
+        cursor = self.conn.execute(
+            "SELECT * FROM signals WHERE ticker = ? ORDER BY created_at DESC LIMIT ?",
+            (ticker.upper(), limit),
+        )
+        signals = []
+        for row in cursor.fetchall():
+            try:
+                signals.append(
+                    Signal(
+                        ticker=row["ticker"],
+                        composite_score=row["composite_score"],
+                        action=row["action"],
+                        confidence=row["confidence"],
+                        components=json.loads(row["components"]) if row["components"] else {},
+                        reasoning=row["reasoning"],
+                        metadata=json.loads(row["metadata"]) if "metadata" in row.keys() and row["metadata"] else {},
+                        timestamp=datetime.fromisoformat(row["created_at"]),
+                    )
+                )
+            except Exception as e:
+                logger.error(f"Error parsing signal row for {ticker}: {e}")
+        return signals
+
     def get_post_count(self) -> int:
         """Get total number of stored posts."""
         cursor = self.conn.execute("SELECT COUNT(*) FROM posts")

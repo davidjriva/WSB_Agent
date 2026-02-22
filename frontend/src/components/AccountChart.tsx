@@ -15,9 +15,9 @@ interface AccountChartProps {
     data: ValuationEntry[];
 }
 
-export function AccountChart({ data }: AccountChartProps) {
+export function AccountChart({ data = [] }: AccountChartProps) {
     // Sort chronological and take last 50
-    const sortedData = [...data]
+    const sortedData = (Array.isArray(data) ? [...data] : [])
         .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
         .slice(-50);
 
@@ -70,7 +70,7 @@ export function AccountChart({ data }: AccountChartProps) {
     }
 
     return (
-        <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800 backdrop-blur-sm relative">
+        <div className="relative">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>ACCOUNT VALUATION HISTORY</div>
                 <button
@@ -94,7 +94,7 @@ export function AccountChart({ data }: AccountChartProps) {
                     EXPORT DATA
                 </button>
             </div>
-            <div className="h-64 w-full">
+            <div className="chart-container">
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={sortedData}>
                     <defs>

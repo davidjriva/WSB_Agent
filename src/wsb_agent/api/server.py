@@ -161,6 +161,32 @@ async def get_recent_signals(limit: int = 50):
     return response
 
 
+@app.get("/signals/{ticker}", response_model=list[SignalResponse])
+async def get_ticker_history(ticker: str, limit: int = 50):
+    """Retrieve historical signals for a specific stock."""
+    if not _db:
+        raise HTTPException(status_code=500, detail="Database not initialized")
+        
+    signals = _db.get_ticker_signals(ticker, limit=limit)
+    
+    response = []
+    for s in signals:
+        response.append(
+            SignalResponse(
+                ticker=s.ticker,
+                score=s.composite_score,
+                action=s.action,
+                confidence=s.confidence,
+                reasoning=s.reasoning,
+                components=s.components,
+                metadata=s.metadata,
+                timestamp=s.timestamp.isoformat()
+            )
+        )
+            
+    return response
+
+
 @app.get("/portfolio", response_model=PortfolioResponse)
 async def get_portfolio():
     """Retrieve current Alpaca holdings and balance."""
