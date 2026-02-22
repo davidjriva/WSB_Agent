@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "bun x --bun vite",
+    "build": "tsc -b && bun x --bun vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "bun x --bun vite preview"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
