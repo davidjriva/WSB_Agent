@@ -63,9 +63,7 @@ h3 {
   align-items: center;
 }
 
-.watchlist-container {
-  /* No fixed scroll, let page handle it */
-}
+/* .watchlist-container removed fixed scroll */
 
 .watchlist-table {
   width: 100%;

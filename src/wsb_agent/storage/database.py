@@ -444,6 +444,15 @@ class Database:
         cursor = self.conn.execute("SELECT COUNT(*) FROM comments")
         return cursor.fetchone()[0]
 
+    def clear_signals(self) -> None:
+        """Triggers a full reset of the signals table."""
+        try:
+            self.conn.execute("DELETE FROM signals")
+            self.conn.commit()
+            logger.info("Signals table cleared successfully")
+        except sqlite3.Error as e:
+            logger.error(f"Error clearing signals table: {e}")
+
     def close(self) -> None:
         """Close the database connection."""
         if self._conn is not None:

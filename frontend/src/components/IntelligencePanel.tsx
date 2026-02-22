@@ -68,7 +68,7 @@ export const IntelligencePanel: React.FC<IntelligencePanelProps> = ({ ticker }) 
             <Info size={18} className="text-green" /> Confidence Level
           </h3>
           <div style={{ fontSize: '2rem', fontWeight: 800 }}>
-            {(latest?.confidence || 0 * 100).toFixed(0)}%
+            {((latest?.confidence || 0) * 100).toFixed(0)}%
           </div>
           <div style={{ width: '100%', height: '8px', background: 'var(--bg-accent)', borderRadius: '4px', marginTop: '10px' }}>
             <div style={{ width: `${(latest?.confidence || 0) * 100}%`, height: '100%', background: 'var(--money-green)', borderRadius: '4px' }} />
