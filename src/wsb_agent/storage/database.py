@@ -18,7 +18,7 @@ from wsb_agent.models import Post, Comment, Signal
 logger = logging.getLogger("wsb_agent.storage.database")
 
 # Schema version for simple migration support
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 SCHEMA_SQL = """
 -- Schema version tracking
@@ -64,7 +64,16 @@ CREATE TABLE IF NOT EXISTS signals (
     confidence REAL NOT NULL,
     components TEXT,  -- JSON serialized
     reasoning TEXT,
+    metadata TEXT, -- JSON serialized
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Portfolio history tracking
+CREATE TABLE IF NOT EXISTS portfolio_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    total_equity REAL NOT NULL,
+    cash REAL NOT NULL,
+    timestamp TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 -- Pipeline run log
@@ -85,6 +94,7 @@ CREATE INDEX IF NOT EXISTS idx_posts_created ON posts(created_utc);
 CREATE INDEX IF NOT EXISTS idx_comments_post_id ON comments(post_id);
 CREATE INDEX IF NOT EXISTS idx_signals_ticker ON signals(ticker);
 CREATE INDEX IF NOT EXISTS idx_signals_created ON signals(created_at);
+CREATE INDEX IF NOT EXISTS idx_portfolio_history_timestamp ON portfolio_history(timestamp);
 CREATE INDEX IF NOT EXISTS idx_pipeline_runs_started ON pipeline_runs(started_at);
 """
 
@@ -128,6 +138,17 @@ class Database:
         current_version = row[0] if row[0] is not None else 0
 
         if current_version < SCHEMA_VERSION:
+            if current_version < 2:
+                logger.info("Migrating database to version 2: Adding 'metadata' to 'signals' table...")
+                try:
+                    self.conn.execute("ALTER TABLE signals ADD COLUMN metadata TEXT")
+                    self.conn.commit()
+                except sqlite3.OperationalError as e:
+                    if "duplicate column name" in str(e).lower():
+                        logger.debug("Metadata column already exists, skipping ALTER.")
+                    else:
+                        raise e
+
             self.conn.execute(
                 "INSERT OR REPLACE INTO schema_version (version) VALUES (?)",
                 (SCHEMA_VERSION,),
@@ -228,8 +249,8 @@ class Database:
                 self.conn.execute(
                     """INSERT INTO signals
                     (ticker, composite_score, action, confidence,
-                     components, reasoning, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                     components, reasoning, metadata, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
                         signal.ticker,
                         signal.composite_score,
@@ -237,6 +258,7 @@ class Database:
                         signal.confidence,
                         json.dumps(signal.components),
                         signal.reasoning,
+                        json.dumps(signal.metadata),
                         signal.timestamp.isoformat(),
                     ),
                 )
@@ -247,6 +269,41 @@ class Database:
         self.conn.commit()
         logger.info(f"Inserted {inserted} signals")
         return inserted
+
+    # ── Portfolio history operations ─────────────────────────────────────
+
+    def insert_portfolio_snapshot(self, total_equity: float, cash: float) -> None:
+        """Record a snapshot of portfolio valuation.
+
+        Args:
+            total_equity: Total value including holdings.
+            cash: Uninvested cash available.
+        """
+        try:
+            self.conn.execute(
+                "INSERT INTO portfolio_history (total_equity, cash, timestamp) VALUES (?, ?, ?)",
+                (total_equity, cash, datetime.now().isoformat()),
+            )
+            self.conn.commit()
+            logger.info(f"Recorded portfolio snapshot: Equity=${total_equity:,.2f}")
+        except sqlite3.Error as e:
+            logger.error(f"Error inserting portfolio snapshot: {e}")
+
+    def get_portfolio_history(self, limit: int = 100) -> list[dict[str, Any]]:
+        """Fetch historical portfolio valuation data.
+
+        Args:
+            limit: Max number of data points to return.
+
+        Returns:
+            List of historic snapshot dicts.
+        """
+        cursor = self.conn.execute(
+            "SELECT * FROM portfolio_history ORDER BY timestamp DESC LIMIT ?",
+            (limit,),
+        )
+        # Return as dicts so they are easy to serialize to JSON by FastAPI
+        return [dict(row) for row in cursor.fetchall()]
 
     # ── Pipeline run tracking ────────────────────────────────────────────
 
@@ -312,20 +369,37 @@ class Database:
 
     # ── Query helpers ────────────────────────────────────────────────────
 
-    def get_recent_signals(self, limit: int = 50) -> list[dict[str, Any]]:
+    def get_recent_signals(self, limit: int = 50) -> list[Signal]:
         """Fetch the most recent signals.
 
         Args:
             limit: Max number of signals to return.
 
         Returns:
-            List of signal dicts.
+            List of Signal objects.
         """
         cursor = self.conn.execute(
             "SELECT * FROM signals ORDER BY created_at DESC LIMIT ?",
             (limit,),
         )
-        return [dict(row) for row in cursor.fetchall()]
+        signals = []
+        for row in cursor.fetchall():
+            try:
+                signals.append(
+                    Signal(
+                        ticker=row["ticker"],
+                        composite_score=row["composite_score"],
+                        action=row["action"],
+                        confidence=row["confidence"],
+                        components=json.loads(row["components"]) if row["components"] else {},
+                        reasoning=row["reasoning"],
+                        metadata=json.loads(row["metadata"]) if "metadata" in row.keys() and row["metadata"] else {},
+                        timestamp=datetime.fromisoformat(row["created_at"]),
+                    )
+                )
+            except Exception as e:
+                logger.error(f"Error parsing signal row: {e}")
+        return signals
 
     def get_post_count(self) -> int:
         """Get total number of stored posts."""

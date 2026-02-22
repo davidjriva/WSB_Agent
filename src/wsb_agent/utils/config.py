@@ -60,6 +60,15 @@ class SentimentConfig:
 
 
 @dataclass(frozen=True)
+class LLMConfig:
+    """LLM inference settings."""
+
+    provider: str = "ollama"
+    model: str = "llama3.2"
+    endpoint: str = "http://localhost:11434"
+
+
+@dataclass(frozen=True)
 class AttentionConfig:
     """Attention metrics settings."""
 
@@ -74,6 +83,7 @@ class FeaturesConfig:
         default_factory=TickerExtractionConfig
     )
     sentiment: SentimentConfig = field(default_factory=SentimentConfig)
+    llm: LLMConfig = field(default_factory=LLMConfig)
     attention: AttentionConfig = field(default_factory=AttentionConfig)
 
 
@@ -129,6 +139,19 @@ class LoggingConfig:
 
 
 @dataclass(frozen=True)
+class PortfolioConfig:
+    """Portfolio Agent configuration."""
+
+    broker: str = "alpaca"
+    paper_trading: bool = True
+    base_trade_amount: float = 1000.0
+    max_position_size_pct: float = 0.15
+    # loaded from env
+    alpaca_api_key: str = ""
+    alpaca_secret_key: str = ""
+
+
+@dataclass(frozen=True)
 class AppConfig:
     """Top-level application configuration."""
 
@@ -138,6 +161,7 @@ class AppConfig:
     signal_engine: SignalEngineConfig = field(default_factory=SignalEngineConfig)
     storage: StorageConfig = field(default_factory=StorageConfig)
     logging: LoggingConfig = field(default_factory=LoggingConfig)
+    portfolio: PortfolioConfig = field(default_factory=PortfolioConfig)
 
 
 def _load_yaml(config_path: Path | None = None) -> dict[str, Any]:
@@ -174,6 +198,7 @@ def _build_features_config(yaml_data: dict[str, Any]) -> FeaturesConfig:
     features_yaml = yaml_data.get("features", {})
     ticker_yaml = features_yaml.get("ticker_extraction", {})
     sentiment_yaml = features_yaml.get("sentiment", {})
+    llm_yaml = features_yaml.get("llm", {})
     attention_yaml = features_yaml.get("attention", {})
 
     return FeaturesConfig(
@@ -183,6 +208,11 @@ def _build_features_config(yaml_data: dict[str, Any]) -> FeaturesConfig:
         ),
         sentiment=SentimentConfig(
             method=sentiment_yaml.get("method", "vader"),
+        ),
+        llm=LLMConfig(
+            provider=llm_yaml.get("provider", "ollama"),
+            model=llm_yaml.get("model", "llama3.2"),
+            endpoint=llm_yaml.get("endpoint", "http://localhost:11434"),
         ),
         attention=AttentionConfig(
             window_hours=attention_yaml.get("window_hours", 6),
@@ -256,6 +286,17 @@ def load_config(config_path: Path | None = None, env_path: Path | None = None) -
         format=logging_yaml.get("format", "text"),
     )
 
+    # Build portfolio config
+    portfolio_yaml = yaml_data.get("portfolio", {})
+    portfolio_config = PortfolioConfig(
+        broker=portfolio_yaml.get("broker", "alpaca"),
+        paper_trading=portfolio_yaml.get("paper_trading", True),
+        base_trade_amount=portfolio_yaml.get("base_trade_amount", 1000.0),
+        max_position_size_pct=portfolio_yaml.get("max_position_size_pct", 0.15),
+        alpaca_api_key=os.environ.get("ALPACA_API_KEY", ""),
+        alpaca_secret_key=os.environ.get("ALPACA_SECRET_KEY", ""),
+    )
+
     return AppConfig(
         reddit=_build_reddit_config(yaml_data),
         market=market_config,
@@ -263,4 +304,5 @@ def load_config(config_path: Path | None = None, env_path: Path | None = None) -
         signal_engine=_build_signal_config(yaml_data),
         storage=storage_config,
         logging=logging_config,
+        portfolio=portfolio_config,
     )

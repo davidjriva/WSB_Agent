@@ -49,8 +49,16 @@ features:
       - IV    # Implied Volatility
 
   sentiment:
-    # Method: "vader" (more options in future: "llm")
-    method: vader
+    # Method: "vader" or "llm"
+    method: llm
+
+  llm:
+    # Provider: "ollama"
+    provider: ollama
+    # Model to use locally (e.g. llama3.2, phi3)
+    model: llama3.2
+    # Ollama API endpoint
+    endpoint: http://localhost:11434
 
   attention:
     # Time window in hours for velocity calculations
@@ -66,7 +74,7 @@ signal_engine:
     buy: 0.6
     sell: -0.4
   # Ignore tickers with fewer than N mentions
-  min_mentions: 3
+  min_mentions: 1
   # Ignore tickers with confidence below this
   min_confidence: 0.3
 
@@ -78,3 +86,12 @@ logging:
   level: INFO
   # Format: "text" or "json"
   format: text
+
+portfolio:
+  broker: alpaca
+  # True = hit paper api, False = hit live api
+  paper_trading: true
+  # Base dollar amount for a standard weight trade
+  base_trade_amount: 1000.0
+  # Absolute max percentage of total account equity to put into a single trade
+  max_position_size_pct: 0.15

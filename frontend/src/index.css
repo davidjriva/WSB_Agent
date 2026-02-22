@@ -1,0 +1,67 @@
+:root {
+  --bg-primary: #0a0a0c;
+  --bg-secondary: #141419;
+  --bg-card: rgba(26, 26, 31, 0.7);
+  
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-muted: #4b5563;
+  
+  --accent-brand: #3b82f6;
+  --accent-buy: #10b981;
+  --accent-sell: #ef4444;
+  --accent-neutral: #6b7280;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05), transparent 25%);
+  background-attachment: fixed;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

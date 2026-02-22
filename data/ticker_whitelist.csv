@@ -1,0 +1,99 @@
+ticker,name,exchange
+AAPL,Apple Inc,NASDAQ
+ABNB,Airbnb Inc,NASDAQ
+ACHR,Archer Aviation Inc,NYSE
+ADBE,Adobe Inc,NASDAQ
+AMD,Advanced Micro Devices,NASDAQ
+AMZN,Amazon.com Inc,NASDAQ
+AMC,AMC Entertainment,NYSE
+ANET,Arista Networks,NYSE
+ARKK,ARK Innovation ETF,NYSE
+AVGO,Broadcom Inc,NASDAQ
+BA,Boeing Co,NYSE
+BABA,Alibaba Group,NYSE
+BAC,Bank of America,NYSE
+BB,BlackBerry Ltd,NYSE
+BBBY,Bed Bath & Beyond,NASDAQ
+BILI,Bilibili Inc,NASDAQ
+C,Citigroup Inc,NYSE
+CCL,Carnival Corp,NYSE
+CHPT,ChargePoint Holdings,NYSE
+CLNE,Clean Energy Fuels,NASDAQ
+CLOV,Clover Health,NASDAQ
+COIN,Coinbase Global,NASDAQ
+COST,Costco Wholesale,NASDAQ
+CRM,Salesforce Inc,NYSE
+CRWD,CrowdStrike Holdings,NASDAQ
+CSCO,Cisco Systems,NASDAQ
+CVX,Chevron Corp,NYSE
+DAL,Delta Air Lines,NYSE
+DIS,Walt Disney Co,NYSE
+DKNG,DraftKings Inc,NASDAQ
+ENPH,Enphase Energy,NASDAQ
+F,Ford Motor Co,NYSE
+FUBO,fuboTV Inc,NYSE
+GBTC,Grayscale Bitcoin Trust,NYSE
+GE,General Electric,NYSE
+GM,General Motors,NYSE
+GME,GameStop Corp,NYSE
+GOOG,Alphabet Inc Class C,NASDAQ
+GOOGL,Alphabet Inc Class A,NASDAQ
+HOOD,Robinhood Markets,NASDAQ
+INTC,Intel Corp,NASDAQ
+IWM,iShares Russell 2000 ETF,NYSE
+JNJ,Johnson & Johnson,NYSE
+JPM,JPMorgan Chase,NYSE
+KO,Coca-Cola Co,NYSE
+LCID,Lucid Group Inc,NASDAQ
+LLY,Eli Lilly and Co,NYSE
+LMT,Lockheed Martin,NYSE
+MA,Mastercard Inc,NYSE
+MCD,McDonalds Corp,NYSE
+META,Meta Platforms Inc,NASDAQ
+MMAT,Meta Materials Inc,NASDAQ
+MNMD,Mind Medicine Inc,NASDAQ
+MSTR,MicroStrategy Inc,NASDAQ
+MSFT,Microsoft Corp,NASDAQ
+MVIS,MicroVision Inc,NASDAQ
+NET,Cloudflare Inc,NYSE
+NIO,NIO Inc,NYSE
+NKE,Nike Inc,NYSE
+NOK,Nokia Corp,NYSE
+NVAX,Novavax Inc,NASDAQ
+NVDA,NVIDIA Corp,NASDAQ
+NFLX,Netflix Inc,NASDAQ
+OPEN,Opendoor Technologies,NASDAQ
+OXY,Occidental Petroleum,NYSE
+PANW,Palo Alto Networks,NASDAQ
+PFE,Pfizer Inc,NYSE
+PLTR,Palantir Technologies,NYSE
+PYPL,PayPal Holdings,NASDAQ
+QQQ,Invesco QQQ Trust,NASDAQ
+RDDT,Reddit Inc,NYSE
+RIVN,Rivian Automotive,NASDAQ
+RKLB,Rocket Lab USA,NASDAQ
+ROKU,Roku Inc,NASDAQ
+SCHW,Charles Schwab,NYSE
+SHOP,Shopify Inc,NYSE
+SMR,NuScale Power Corp,NYSE
+SNAP,Snap Inc,NYSE
+SNOW,Snowflake Inc,NYSE
+SOFI,SoFi Technologies,NASDAQ
+SPY,SPDR S&P 500 ETF,NYSE
+SQ,Block Inc,NYSE
+T,AT&T Inc,NYSE
+TEVA,Teva Pharmaceutical,NYSE
+TGT,Target Corp,NYSE
+TLT,iShares 20+ Year Treasury,NASDAQ
+TLRY,Tilray Brands,NASDAQ
+TSLA,Tesla Inc,NASDAQ
+TSM,Taiwan Semiconductor,NYSE
+UBER,Uber Technologies,NYSE
+UNH,UnitedHealth Group,NYSE
+UPST,Upstart Holdings,NASDAQ
+V,Visa Inc,NYSE
+VTI,Vanguard Total Stock Market ETF,NYSE
+WKHS,Workhorse Group,NASDAQ
+WMT,Walmart Inc,NYSE
+WISH,ContextLogic Inc,NASDAQ
+XOM,ExxonMobil Corp,NYSE

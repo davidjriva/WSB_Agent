@@ -190,8 +190,16 @@ Stored Objects:
 * Signals
 * Portfolio history
 
+## Frontend Dashboard
+Objective: Provide a real-time visual interface for observability and manual intervention.
+
+Features:
+* Agent's Thoughts: Real-time feed of the LLM's reasoning and sentiment analysis.
+* Portfolio State: Current holdings, cash balance, and overall equity curve.
+* Action Feed: Live feed of generated signals (BUY, SELL, HOLD) and executed trades.
+* Real-time updates via WebSockets or polling to the backend API.
+
 ## Extensibility
-Future enhancements may include:
 * Additional social sources (Twitter, news)
 * ML-based prediction models
 * Reinforcement learning agent

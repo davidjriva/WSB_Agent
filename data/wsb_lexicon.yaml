@@ -1,0 +1,184 @@
+# WSB Lexicon — Custom sentiment values for WallStreetBets slang
+#
+# Each entry maps a term/phrase/emoji to a sentiment value between -1.0 and 1.0.
+# These augment VADER's default lexicon for improved accuracy on WSB-specific language.
+#
+# Sentiment scale:
+#   -1.0 = extremely bearish
+#   -0.5 = moderately bearish
+#    0.0 = neutral
+#    0.5 = moderately bullish
+#    1.0 = extremely bullish
+
+# ── Bullish terms ──────────────────────────────────────────
+
+bullish_terms:
+  # Rockets / to the moon
+  "to the moon": 0.8
+  "moon": 0.6
+  "mooning": 0.8
+  "moonshot": 0.7
+  "rocket": 0.7
+  "launch": 0.5
+  "liftoff": 0.7
+  "blast off": 0.7
+
+  # Diamond hands / holding
+  "diamond hands": 0.8
+  "diamond hand": 0.8
+  "diamondhands": 0.8
+  "hold the line": 0.7
+  "hodl": 0.7
+  "holding strong": 0.7
+  "never selling": 0.8
+  "not selling": 0.7
+
+  # Bullish conviction
+  "bullish": 0.7
+  "bull": 0.5
+  "calls": 0.5
+  "call options": 0.5
+  "buy the dip": 0.7
+  "btfd": 0.7
+  "buying the dip": 0.7
+  "loading up": 0.6
+  "going long": 0.6
+  "long": 0.4
+  "all in": 0.7
+  "yolo": 0.6
+  "full send": 0.7
+  "lfg": 0.7
+  "lets go": 0.6
+  "let's go": 0.6
+
+  # Squeeze / short interest
+  "short squeeze": 0.8
+  "squeeze": 0.7
+  "gamma squeeze": 0.8
+  "hedgies r fuk": 0.8
+  "shorts are fucked": 0.8
+  "short interest": 0.5
+  "they haven't covered": 0.7
+
+  # Positive slang
+  "tendies": 0.7
+  "tendie": 0.7
+  "printing": 0.7
+  "printer go brrr": 0.7
+  "brrr": 0.5
+  "free money": 0.7
+  "easy money": 0.7
+  "money printer": 0.6
+  "cash cow": 0.6
+  "undervalued": 0.6
+  "oversold": 0.5
+  "gonna print":  0.7
+  "going to print": 0.7
+
+  # Ape culture
+  "apes together strong": 0.7
+  "ape strong": 0.7
+  "apes": 0.4
+  "this is the way": 0.6
+  "not a dead cat": 0.7
+
+  # Confidence
+  "can't go tits up": 0.6
+  "literally can't go tits up": 0.7
+  "guaranteed": 0.5
+  "no brainer": 0.6
+
+# ── Bearish terms ──────────────────────────────────────────
+
+bearish_terms:
+  # Loss / failure
+  "guh": -0.8
+  "GUH": -0.9
+  "loss porn": -0.6
+  "rip": -0.6
+  "rip my calls": -0.8
+  "rip my portfolio": -0.8
+  "blown up": -0.7
+  "blew up": -0.7
+  "wiped out": -0.8
+  "financially ruined": -0.9
+  "going to zero": -0.8
+  "worthless": -0.8
+
+  # Paper hands / selling
+  "paper hands": -0.6
+  "paper hand": -0.6
+  "paperhands": -0.6
+  "sold everything": -0.7
+  "panic sold": -0.8
+  "panic selling": -0.7
+  "dumping": -0.6
+  "dump it": -0.7
+  "rug pull": -0.8
+  "rugged": -0.8
+
+  # Bearish conviction
+  "bearish": -0.7
+  "bear": -0.4
+  "puts": -0.5
+  "put options": -0.5
+  "going short": -0.6
+  "short": -0.3
+  "overvalued": -0.6
+  "overbought": -0.5
+  "bubble": -0.6
+  "crash": -0.7
+  "correction": -0.5
+  "recession": -0.6
+  "dead cat bounce": -0.6
+
+  # Negative slang
+  "bag holder": -0.6
+  "bagholder": -0.6
+  "bagholding": -0.6
+  "clown": -0.4
+  "clown market": -0.5
+  "behind wendy's": -0.5
+  "wife's boyfriend": -0.3
+  "wendy's dumpster": -0.6
+  "drill": -0.6
+  "drilling": -0.6
+  "tanking": -0.7
+  "plummeting": -0.8
+  "dumpster fire": -0.7
+  "garbage": -0.5
+  "scam": -0.7
+  "ponzi": -0.8
+  "shit stock": -0.7
+  "shitstock": -0.7
+  "trap": -0.5
+  "bull trap": -0.6
+  "dead money": -0.6
+  "falling knife": -0.7
+
+# ── Emoji sentiment ────────────────────────────────────────
+
+emoji_sentiment:
+  "🚀": 0.7
+  "🌙": 0.6
+  "💎": 0.7
+  "🙌": 0.5
+  "💎🙌": 0.8
+  "🦍": 0.5
+  "🐂": 0.6
+  "📈": 0.6
+  "💰": 0.5
+  "🤑": 0.5
+  "💪": 0.5
+  "🔥": 0.4
+  "⬆️": 0.4
+  "🐻": -0.5
+  "📉": -0.6
+  "💩": -0.4
+  "🤡": -0.5
+  "😭": -0.4
+  "☠️": -0.6
+  "🔻": -0.5
+  "⬇️": -0.4
+  "🗑️": -0.5
+  "😱": -0.4

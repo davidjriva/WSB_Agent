@@ -7,6 +7,22 @@ import sys
 from typing import Literal
 
 
+class ColorFormatter(logging.Formatter):
+    """Custom formatter to add colors to terminal output."""
+    
+    # ANSI escape sequences for colors
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    RESET = "\033[0m"
+    
+    def format(self, record):
+        original_msg = super().format(record)
+        if record.levelno == logging.WARNING:
+            return f"{self.YELLOW}{original_msg}{self.RESET}"
+        elif record.levelno >= logging.ERROR:
+            return f"{self.RED}{original_msg}{self.RESET}"
+        return original_msg
+
 def setup_logging(
     level: str = "INFO",
     log_format: Literal["text", "json"] = "text",
@@ -35,7 +51,7 @@ def setup_logging(
             '"module": "%(name)s", "message": "%(message)s"}'
         )
     else:
-        formatter = logging.Formatter(
+        formatter = ColorFormatter(
             "%(asctime)s [%(levelname)-8s] %(name)s: %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S",
         )

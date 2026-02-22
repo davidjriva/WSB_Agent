@@ -5,6 +5,7 @@ Dataclasses used across ingestion, feature extraction, and signal generation.
 
 from __future__ import annotations
 
+from typing import Any
 from dataclasses import dataclass, field
 from datetime import datetime
 
@@ -66,6 +67,7 @@ class SentimentResult:
     compound: float  # VADER compound score
     mention_count: int = 0
     scores: list[float] = field(default_factory=list)  # Individual mention scores
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def avg_score(self) -> float:
@@ -110,4 +112,5 @@ class Signal:
     confidence: float  # 0.0 to 1.0
     components: dict[str, float] = field(default_factory=dict)
     reasoning: str = ""
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)

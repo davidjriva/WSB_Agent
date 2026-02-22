@@ -210,3 +210,15 @@ class RedditIngester:
             url=submission.url,
             permalink=f"https://reddit.com{submission.permalink}",
         )
+
+
+def create_reddit_ingester(config: RedditConfig) -> RedditIngester:
+    """Factory function to create the Reddit ingester.
+
+    Args:
+        config: Reddit configuration.
+
+    Returns:
+        A RedditIngester instance.
+    """
+    return RedditIngester(config)
